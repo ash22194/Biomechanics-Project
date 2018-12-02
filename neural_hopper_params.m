@@ -66,28 +66,32 @@ theta_u = zeros(3,1);
 w_l_0 = 1;
 w_v_0 = 1;
 w_F_0 = 1;
-numTrials = 10;
-heightsReached = zeros(numTrials,1);
-weights = zeros(numTrials+1,3); % l, v, F
-weights(1,:) = [w_l_0, w_v_0, w_F_0];
+numTrials = 1;
+% Uncomment for episodic case
+% heightsReached = zeros(numTrials,1);
+% weights = zeros(numTrials+1,3); % l, v, F
+% weights(1,:) = [w_l_0, w_v_0, w_F_0];
 for i=1:1:numTrials
     sim('neural_hopper');
-    w_l_0 = w_f(1);
-    w_v_0 = w_f(2);
-    w_F_0 = w_f(3);
-    heightsReached(i,1) = y_f - l0;
-    weights(i+1,:) = [w_l_0, w_v_0, w_F_0];
+% Uncomment for episodic case
+%     w_l_0 = w_f(1);
+%     w_v_0 = w_f(2);
+%     w_F_0 = w_f(3);
+%     heightsReached(i,1) = y_f - l0;
+%     weights(i+1,:) = [w_l_0, w_v_0, w_F_0];
+heightsReached = y_f - l0;
+weights = w_f;
 end
 
-plot(1:1:numTrials,heightsReached);
+plot(heightsReached);
 title('Jump height vs Trials');
 xlabel('Trial');
 ylabel('Jump height');
 
 figure;
-plot(1:1:numTrials+1,weights(:,1),'DisplayName','Length');hold on;
-plot(1:1:numTrials+1,weights(:,2),'DisplayName','Velocity');
-plot(1:1:numTrials+1,weights(:,3),'DisplayName','Force');
+plot(weights(:,1),'DisplayName','Length');hold on;
+plot(weights(:,2),'DisplayName','Velocity');
+plot(weights(:,3),'DisplayName','Force');
 title('Synaptic weights vs Trials');
 xlabel('Trial');
 ylabel('w');
