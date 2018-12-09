@@ -50,7 +50,8 @@ thetak0 = 110*pi/180;
 
 G_F = 1/(N*FmaxVAS);
 % G_F = 0;
-G_v = -1/(vmaxVAS*loptVAS);
+G_v = -1/(2*vmaxVAS*loptVAS); v_offset = 0;
+% G_v = -1/(2*vmaxVAS*loptVAS); v_offset = 0;
 % G_v = 0;
 G_l = 1/(2*loptVAS);
 % G_l = 0;
@@ -59,22 +60,33 @@ tauE = 0.01;
 tau_E = 12;
 bE = 0.1;
 thetaE = 0;
-tauW = 0.1;
-theta_u = zeros(3,1);
+tauW = 0.035;
+theta_u = [0;0;0]; % l, v, f
+a = 10;
+b = 10;
+K_l_et = 200;
+K_v_et = 200;
+K_F_et = 200;
 
 w_l_0 = 1;
 w_v_0 = 1;
 w_F_0 = 1;
-w_l_upper = 3;
-w_v_upper = 3;
-w_F_upper = 3;
+w_l_upper = 4;
+w_v_upper = 4;
+w_F_upper = 4;
+c_w_l = 0.15; % Correlation based unfiltered inputs filtered plasticity
+c_w_v = 0.15;% Correlation based unfiltered inputs filtered plasticity
+c_w_F = 0.15; % Correlation based unfiltered inputs filtered plasticity
+% c_w_l = 0.0; % Correlation based unfiltered inputs filtered plasticity
+% c_w_v = 0.0;% Correlation based unfiltered inputs filtered plasticity
+% c_w_F = 0.0; % Correlation based unfiltered inputs filtered plasticity
 numTrials = 0;
 % Uncomment for episodic case
 % heightsReached = zeros(numTrials,1);
 % weights = zeros(numTrials+1,3); % l, v, F
 % weights(1,:) = [w_l_0, w_v_0, w_F_0];
 for i=1:1:numTrials
-    sim('neural_hopper');
+    sim('neural_hopper_wetrace_TD');
 % Uncomment for episodic case
 %     w_l_0 = w_f(1);
 %     w_v_0 = w_f(2);

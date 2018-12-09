@@ -51,38 +51,49 @@ thetak0 = 110*pi/180;
 
 G_F = 1/(N*FmaxVAS);
 % G_F = 0;
-G_v = -1/(vmaxVAS*loptVAS);
+G_v = -1/(2*vmaxVAS*loptVAS); v_offset = 0;
+% G_v = -1/(2*vmaxVAS*loptVAS); v_offset = 0;
 % G_v = 0;
-G_l = 1/loptVAS;
+G_l = 1/(2*loptVAS);
+G_h_prev = 1/(y0-l0);
 % G_l = 0;
-% G_h_prev = 1/(y0-l0);
-G_h_prev = 0;
 % a = 1;
 tauE = 0.01;
 tau_E = 12;
 bE = 0.1;
 thetaE = 0;
-tauW = 0.1;
-theta_u = zeros(4,1);
+tauW = 0.01;
+theta_u = [0;0;0;0]; % l, v, f
 a = 10;
 b = 10;
-K_l_et = 200;
+K_h_prev_et = 120;
 K_v_et = 200;
+K_l_et = 200;
 K_F_et = 200;
-K_h_prev_et = 200;
+
 
 w_l_0 = 1;
 w_v_0 = 1;
 w_F_0 = 1;
 w_h_prev_0 = 1;
-
-numTrials = 1;
+w_l_upper = 4;
+w_v_upper = 4;
+w_F_upper = 4;
+w_h_prev_upper = 4;
+c_w_l = 0.15; % Correlation based unfiltered inputs filtered plasticity
+c_w_v = 0.15;% Correlation based unfiltered inputs filtered plasticity
+c_w_F = 0.15; % Correlation based unfiltered inputs filtered plasticity
+c_w_h_prev = 0.15;
+% c_w_l = 0.0; % Correlation based unfiltered inputs filtered plasticity
+% c_w_v = 0.0;% Correlation based unfiltered inputs filtered plasticity
+% c_w_F = 0.0; % Correlation based unfiltered inputs filtered plasticity
+numTrials = 0;
 % Uncomment for episodic case
 % heightsReached = zeros(numTrials,1);
 % weights = zeros(numTrials+1,3); % l, v, F
 % weights(1,:) = [w_l_0, w_v_0, w_F_0];
 for i=1:1:numTrials
-    sim('neural_hopper_wetrace_ISO');
+    sim('neural_hopper_wetrace');
 % Uncomment for episodic case
 %     w_l_0 = w_f(1);
 %     w_v_0 = w_f(2);
@@ -93,17 +104,17 @@ heightsReached = y_f - l0;
 weights = w_f;
 end
 
-plot(heightsReached);
-title('Jump height vs Trials');
-xlabel('Trial');
-ylabel('Jump height');
-
-figure;
-plot(weights(:,1),'DisplayName','Length');hold on;
-plot(weights(:,2),'DisplayName','Velocity');
-plot(weights(:,3),'DisplayName','Force');
-title('Synaptic weights vs Trials');
-xlabel('Trial');
-ylabel('w');
-legend();
-hold off;
+% plot(heightsReached);
+% title('Jump height vs Trials');
+% xlabel('Trial');
+% ylabel('Jump height');
+% 
+% figure;
+% plot(weights(:,1),'DisplayName','Length');hold on;
+% plot(weights(:,2),'DisplayName','Velocity');
+% plot(weights(:,3),'DisplayName','Force');
+% title('Synaptic weights vs Trials');
+% xlabel('Trial');
+% ylabel('w');
+% legend();
+% hold off;
